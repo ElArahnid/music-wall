@@ -1,13 +1,15 @@
-body {
+#root {
+  background: radial-gradient(rgba(255, 255, 255, 0.104), rgb(255, 255, 255)), url(../src/components/App/img/music-main-bg.png);
+  background-position: top;
+  background-size: cover;
+  position: relative;
+  height: 100vh;
+  width: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: content-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.layout {
+  background-color: unset;
 }

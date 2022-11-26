@@ -1,0 +1,80 @@
+import React from "react";
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { Avatar, Card } from "antd";
+import dayjs from "dayjs";
+import "../../dayjs/locale/ru";
+
+import s from "./style.module.css";
+import { Link } from "react-router-dom";
+
+const Post = ({
+  _id,
+  image,
+  likes,
+  comments,
+  tags,
+  title,
+  author,
+  text,
+  created_at,
+  updated_at,
+  isPublished,
+  postId
+}) => {
+
+  const { Meta } = Card;
+
+  const hello = () => {
+    console.log("hello");
+  };
+
+//   console.log(postId);
+
+  return (
+
+      <Card key={_id}
+        style={
+          isPublished
+            ? { width: 250 }
+            : { width: 300, border: "3px solid #CCC" }
+        }
+        cover={<img alt={title} src={image} />}
+        actions={[
+          <SettingOutlined key="setting" onClick={hello} />,
+          <EditOutlined key="edit" />,
+          <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <div className={s.flexRow}>
+          <Meta avatar={<Avatar src={author.avatar} />} /> {author.name}
+        </div>
+        <Meta title={title} description={text} />
+        <div>{likes.length > 0 ? `likes: ${likes.length}` : null}</div>
+        <div>{comments.length > 0 ? `comments: ${comments.length}` : null}</div>
+        <div>
+          {created_at &&
+            `создано ${dayjs(created_at)
+              .locale("ru")
+              .format("D MMMM YYYY dd, H:mm:s")}`}
+        </div>
+        <div>
+          {updated_at &&
+            `изменено ${dayjs(updated_at)
+              .locale("ru")
+              .format("D MMMM YYYY dd, H:mm:s")}`}
+        </div>
+        <div>
+          <Link to={`/post-${_id}`}>
+            подробнее &gt; {_id}
+          </Link>
+        </div>
+      </Card>
+
+  );
+};
+
+export default Post;
