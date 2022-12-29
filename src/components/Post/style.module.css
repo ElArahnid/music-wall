@@ -1,7 +1,18 @@
 .flexRow {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.postContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.imgPost {
+  height: 180px;
+  object-fit: cover;
 }

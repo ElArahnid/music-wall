@@ -2,9 +2,9 @@ import React from "react";
 import {
   EditOutlined,
   EllipsisOutlined,
-  SettingOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
-import { Avatar, Card } from "antd";
+import { Avatar, Card, ConfigProvider } from "antd";
 import dayjs from "dayjs";
 import "../../dayjs/locale/ru";
 
@@ -36,13 +36,15 @@ const Post = ({
 
   return (
 
-      <Card key={_id}
+      <Card 
+      key={_id}
         style={
           isPublished
-            ? { width: 250 }
+            ? { width: 250, flexGrow: 1 }
             : { width: 300, border: "3px solid #CCC" }
         }
-        cover={<img alt={title} src={image} />}
+        className={s.postContainer}
+        cover={<img alt={title} src={image} className={s.imgPost} />}
         actions={[
           <SettingOutlined key="setting" onClick={hello} />,
           <EditOutlined key="edit" />,
@@ -52,7 +54,7 @@ const Post = ({
         <div className={s.flexRow}>
           <Meta avatar={<Avatar src={author.avatar} />} /> {author.name}
         </div>
-        <Meta title={title} description={text} />
+        <Meta title={title} description={text} EllipsisOutlined />
         <div>{likes.length > 0 ? `likes: ${likes.length}` : null}</div>
         <div>{comments.length > 0 ? `comments: ${comments.length}` : null}</div>
         <div>

@@ -41,7 +41,7 @@ const EditForm = () => {
         <Input />
       </Form.Item>
       <Form.Item label="Текст поста" name="textpost">
-        <Input.TextArea />
+        <Input.TextArea >55555555555555555</Input.TextArea>
       </Form.Item>
       <Form.Item label="Опубликовано?" name="isPublished">
         <Select>
