@@ -12,7 +12,8 @@ import FullPostInfo from "../FullPostInfo/full-post-info";
 import GlobalAuth from "../Context/main-context";
 import NotFound from "../NotFound";
 import EditForm from "../EditForm/edit-form";
-import Sider from "antd/es/layout/Sider";
+import { MySider } from "../Sider/Sider";
+
 
 const App = ({ postId }) => {
   return (
@@ -20,7 +21,7 @@ const App = ({ postId }) => {
       <Layout className={s.layout}>
         <Header />
         <Layout>
-          <Sider collapsed={true} theme="light">Sider</Sider>
+          <MySider />
           <main className={cn(s.main__content)}>
             <Routes>
               <Route path="/" element={<AllPosts />} />
