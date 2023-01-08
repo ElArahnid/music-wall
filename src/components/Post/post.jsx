@@ -4,7 +4,7 @@ import {
   EllipsisOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Avatar, Card, ConfigProvider } from "antd";
+import { Avatar, Card } from "antd";
 import dayjs from "dayjs";
 import "../../dayjs/locale/ru";
 
@@ -23,7 +23,6 @@ const Post = ({
   created_at,
   updated_at,
   isPublished,
-  postId
 }) => {
 
   const { Meta } = Card;

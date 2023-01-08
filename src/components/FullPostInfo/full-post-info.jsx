@@ -26,7 +26,7 @@ const FullPOstInfo = () => {
     setActiveTab(key);
   };
 
-  console.log(post);
+  // console.log(post);
 
   const {
     image,

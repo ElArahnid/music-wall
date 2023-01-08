@@ -1,22 +1,34 @@
-import React, { useEffect, useState } from "react";
-
-import api from '../Api/api'
 import Post from "../Post/post";
 
-const AllPosts = () => {
+const AllPosts = ({ posts, selectByTags }) => {
 
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    api.getAllPosts().then((postsData) => {
-      setPosts(postsData);
-    });
-  }, []);
+  const handleClearTag = (value) => {
+    return ((value).slice(0, 50)).toLowerCase().replace(/\s/g, "")
+  }
 
-console.log(posts);
-
-  return posts?.map((res) => (
+  if (!selectByTags) {
+    return posts?.map((res) => (
       <Post key={res._id} {...res} />
-  ));
+      // if ((tag.slice(0, 50)).toLowerCase().replace(/\s/g, "").includes(selectByTags)) {
+      //   console.log(res);
+      // }
+    ));
+  } else {
+    //  (res.slice(0, 50)).toLowerCase().replace(/\s/g, "").includes(selectByTags))
+    // console.log(filtered);
+    let allTags = [];
+    posts?.map((res) => {
+      res.tags.map((tag) => {
+        if (handleClearTag(tag) === selectByTags) {
+          allTags = [...allTags, res];
+        }
+      } )
+      // console.log(allTags) 
+    });
+    return allTags.map((res) => (
+      <Post key={res._id} {...res} />
+    ))
+  }
 };
 
 export default AllPosts;

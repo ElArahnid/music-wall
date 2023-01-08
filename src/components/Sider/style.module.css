@@ -1,3 +1,14 @@
 .MySider {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tag {
+    word-wrap: break-word;
+    font-weight: 700;
+    margin: 7px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }

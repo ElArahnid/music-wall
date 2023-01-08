@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import cn from "classnames";
 
 import Layout from "antd/es/layout/layout";
@@ -12,23 +12,39 @@ import FullPostInfo from "../FullPostInfo/full-post-info";
 import GlobalAuth from "../Context/main-context";
 import NotFound from "../NotFound";
 import EditForm from "../EditForm/edit-form";
-import { MySider } from "../Sider/Sider";
+import { MySider } from "../Sider/sider";
+import api from '../Api/api';
 
 
-const App = ({ postId }) => {
+const App = () => {
+
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    api.getAllPosts().then((postsData) => {
+      setPosts(postsData);
+    });
+  }, []);
+
+  const [selectByTags, setSelectByTags] = useState('');
+  const handleSelectTag = (e) => {
+      setSelectByTags(e.target.innerText)
+  }
+
+  const handleSelectTagCleared = () => {setSelectByTags('')}
+
   return (
     <GlobalAuth.Provider value={null}>
       <Layout className={s.layout}>
         <Header />
         <Layout>
-          <MySider />
+          <MySider posts={posts} handleSelectTag={handleSelectTag} selectByTags={selectByTags} handleSelectTagCleared={handleSelectTagCleared} />
           <main className={cn(s.main__content)}>
-            <Routes>
-              <Route path="/" element={<AllPosts />} />
-              <Route path="/post-:id" element={<FullPostInfo />} />
-              <Route path="/edit-:id" element={<EditForm />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<AllPosts posts={posts} selectByTags={selectByTags} />} />
+            <Route path="/post-:id" element={<FullPostInfo />} />
+            <Route path="/edit-:id" element={<EditForm />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
           </main>
         </Layout>
         <Footer />
