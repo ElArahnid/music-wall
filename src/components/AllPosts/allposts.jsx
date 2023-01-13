@@ -1,5 +1,8 @@
+import s from './style.module.css';
+
 import { List } from "antd";
 import Post from "../Post/post";
+
 
 const AllPosts = ({ posts, selectByTags }) => {
   // console.log(posts);
@@ -21,10 +24,9 @@ const AllPosts = ({ posts, selectByTags }) => {
     }));
     return (
       <List
+        grid={{xs: 5,}}
+        className={s.posts}
         dataSource={data}
-        itemLayout="horizontal"
-        size="default"
-        grid={{ gutter: { xxl: 12 } }}
         pagination={{
           onChange: (page) => {
             console.log(page);
@@ -61,10 +63,8 @@ const AllPosts = ({ posts, selectByTags }) => {
     }));
     return (
       <List
+        className={s.posts}
         dataSource={data}
-        itemLayout="horizontal"
-        size="default"
-        grid={{ gutter: { xxl: 12 } }}
         pagination={{
           onChange: (page) => {
             console.log(page);

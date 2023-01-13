@@ -35,7 +35,7 @@ const Post = ({
       key={_id}
       style={
         isPublished
-          ? { width: 250, flexGrow: 1 }
+          ? { width: 250, flexGrow: 1, alignSelf: 'stretch', justifySelf: 'stretch', }
           : { width: 300, border: "3px solid #CCC" }
       }
       className={s.postContainer}

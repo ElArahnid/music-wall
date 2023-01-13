@@ -1,10 +1,15 @@
 .main__content {
+    position: relative;
+    display: flex;
     flex-grow: 1;
     height: 100%;
-    display: flex;
     gap: 10px;
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: space-evenly;
     padding: 27px;
+}
+
+.my_sider {
+    border: 5px solid red !important;
 }

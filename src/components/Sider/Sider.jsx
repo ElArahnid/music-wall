@@ -17,7 +17,7 @@ export const MySider = ({ posts, handleSelectTag, handleSelectTagCleared }) => {
         <Sider collapsed={false} theme="light" className={s.MySider}>
             <div className={s.tag} onClick={handleSelectTagCleared}>Все посты</div>
             { cloodTags?.map((tagFromCloud, i) => 
-                <div className={s.tag} key={i} onClick={handleSelectTag}>{tagFromCloud}</div>
+                <span className={s.tag} key={i} onClick={handleSelectTag}>{tagFromCloud}</span>
             ) }
         </Sider>
     )

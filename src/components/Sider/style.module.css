@@ -2,13 +2,22 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    line-height: 1.8;
 }
 
 .tag {
     word-wrap: break-word;
     font-weight: 700;
-    margin: 7px;
+    margin: 3px;
     padding: 7px;
-    border: 1px solid #ccc;
     cursor: pointer;
+    text-shadow: 3px 3px 6px rgb(0 0 255 / 37%);
+    transition: 2s;
+}
+
+.tag:hover {
+    text-shadow: 3px 3px 6px rgba(255, 255, 0, 0.521);
+    transition: .8s;
+    font-size: 115%;
 }

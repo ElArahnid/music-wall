@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
+
 import cn from "classnames";
+import s from "./style.module.css";
 
 import Layout from "antd/es/layout/layout";
 
-import s from "./style.module.css";
-import Footer from "../Footer/footer";
+import GlobalAuth from "../Context/main-context";
+
+import api from '../Api/api';
 import Header from "../Header/header";
+import { MySider } from "../Sider/sider";
 import AllPosts from "../AllPosts/allposts";
 import FullPostInfo from "../FullPostInfo/full-post-info";
-import GlobalAuth from "../Context/main-context";
-import NotFound from "../NotFound";
 import EditForm from "../EditForm/edit-form";
-import { MySider } from "../Sider/sider";
-import api from '../Api/api';
+import Footer from "../Footer/footer";
+import NotFound from "../NotFound";
 
 
 const App = () => {
