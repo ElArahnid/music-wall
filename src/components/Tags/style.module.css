@@ -1,0 +1,22 @@
+.mySider {
+    padding: 10px;
+    line-height: 1.5;
+    overflow-y: scroll;
+    height: 100vmax;
+}
+
+.tag {
+    word-wrap: break-word;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+    margin: 0 5px;
+    padding: 0 3px;
+    border-radius: 3px;
+}
+
+.tag:hover {
+    transition: .3s;
+    color: gold;
+    background-color: rebeccapurple !important;
+}

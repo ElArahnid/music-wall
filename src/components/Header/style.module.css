@@ -1,40 +1,88 @@
 .header {
-    background-size: contain;
-    height: 60px;
-    width: 100%;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 27px;
-    box-sizing: border-box;
-}
-
-.colorSquare {
-    width: 40px;
-    height: 40px;
-    background-color: aqua;
-    flex-shrink: 0;
-}
-
-.headerBG {
-    position: absolute;
-    background-color: #CCC;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  background-size: contain;
+  background-color: white;
+  padding: 7px 27px;
+  height: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
 }
 
 .logo {
-z-index: 1;
+  z-index: 1;
+}
+
+.logo a {
+    font-size: 18px;
+}
+
+.logo__img {
+  height: 100%;
+  display: inline;
+}
+
+@keyframes track {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.colorSquare {
+  font-size: 1px;
+  animation: track 2s infinite ease-in-out;
+}
+
+.headerBG {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: flex;
+  gap: 1px;
+  justify-content: center;
+  align-items: center;
+  background: rgb(148,45,182);
+  background: linear-gradient(76deg, rgba(148,45,182,1) 4%, rgba(253,243,45,0.950315160243785) 46%, rgba(253,243,45,0.950315160243785) 64%);
 }
 
 .userPanel {
-z-index: 2;
+  z-index: 2;
+}
+
+.faButtons {
+  color: red;
+  font-size: 37px;
+  font-weight: 800;
+  text-shadow: 1px 1px 1px black;
+  transition: .5s;
+}
+
+.faButtons:hover {
+  font-size: 40px;
+  transition: .5s;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 50px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.avatar:hover {
+  box-shadow: 1px 1px 1px black;
+  transition: .5s;
 }

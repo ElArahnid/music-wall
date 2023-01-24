@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import { SHA1, SHA256 } from "crypto-js";
+import { UserContext } from "../../context/UserContext";
 
 export const AuthForm = () => {
   const [form] = Form.useForm();
-  const [, forceUpdate] = useState({});
+  const [forceUpdate, setForceUpdate] = useState({});
+
+const  { AccessAllowed } = useContext(UserContext)
 
   // To disable submit button at the beginning.
   useEffect(() => {
-    forceUpdate({});
+    setForceUpdate({});
   }, []);
+
   const onFinish = (values) => {
-    if ((values.email === "elogim@gmail.com") && (values.password === "000")) {
-      console.log("OK:", values);
-      console.log(SHA1(values.email)[0] === SHA1(values.email)[0]);
-    //   localStorage.setItem("token_el.com", ("elogim@gmail.com 000").charCodeAt)
-    } else {
-      console.log("ERROR:", values.email + values.password);
-      localStorage.removeItem("token_el.com")
-      // alert('Неверный E-Mail!')
-    }
+    AccessAllowed(values.email, values.password)
   };
+  
   return (
     <Form
       form={form}
