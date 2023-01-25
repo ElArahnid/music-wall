@@ -3,10 +3,14 @@ import s from "./style.module.css";
 import { List } from "antd";
 import Post from "../Post/post";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { PostsContext } from "../../context/PostsContext";
 
-const AllPosts = ({ posts }) => {
+const AllPosts = () => {
 
   const { tagpage } = useParams();
+  const {posts, setPosts} = useContext(PostsContext);
+  console.log(posts);
 
   const handleClearTag = (value) => {
     return value.slice(0, 25).toLowerCase().replace(/\s/g, "");

@@ -7,7 +7,7 @@ import { AuthForm } from "../Forms/auth-form";
 import s from "./style.module.css";
 import logo from "./img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMusic, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket, faMusic, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import AddForm from "../Forms/add-form";
@@ -18,7 +18,7 @@ const Header = ({ handleSelectTagCleared }) => {
   const [squads, setSquads] = useState(
     Math.floor((window.innerWidth - 50) / squareWidth)
   );
-  const { authState } = useContext(UserContext);
+  const { authState, exit } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
 
@@ -99,7 +99,7 @@ const Header = ({ handleSelectTagCleared }) => {
                 alt={localStorage.getItem("name")}
                 className={s.avatar}
               />
-
+            <FontAwesomeIcon icon={faArrowRightFromBracket} className={s.faButtons} onClick={exit} />
               <FontAwesomeIcon
                 icon={faPlus}
                 className={s.faButtons}
@@ -110,22 +110,20 @@ const Header = ({ handleSelectTagCleared }) => {
           <Modal
             title="Авторизация"
             open={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
+            onCancel={handleCancel} 
             forceRender={false}
             footer={[]}
           >
-            <AuthForm />
+            <AuthForm onOk={handleOk} />
           </Modal>
           <Modal
             title="Добавление поста"
             open={isModalAddOpen}
-            onOk={handleAddOk}
-            onCancel={handleAddCancel}
+             onCancel={handleAddCancel}
             forceRender={false}
             footer={[]}
           >
-            <AddForm />
+            <AddForm onOk={handleAddOk} />
           </Modal>
         </div>
       </header>

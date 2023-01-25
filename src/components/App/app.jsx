@@ -7,6 +7,7 @@ import s from "./style.module.css";
 import Layout from "antd/es/layout/layout";
 
 import { UserContext } from "../../context/UserContext";
+import { PostsContext } from "../../context/PostsContext";
 
 import api from "../Api/api";
 import Header from "../Header/header";
@@ -23,14 +24,24 @@ const App = () => {
   const [selectByTags, setSelectByTags] = useState("");
   const [posts, setPosts] = useState([]);
   const [authState, setAuthState] = useState(false);
+  // console.log(authState);
 
 
   const AccessAllowed = useCallback((email, password) => {
-    api.putAuthLocalInfo(email, password);
     let result =
     localStorage.getItem("id") === "636a510659b98b038f779cee" &&
     localStorage.getItem("authorised") === 'true';
-    setAuthState(result);
+    api.putAuthLocalInfo(email, password)
+    .then(setAuthState(result))
+  }, []);
+
+  const exit = useCallback(() => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("authorised");
+    localStorage.removeItem("name");
+    localStorage.removeItem("avatar");
+    setAuthState(false)
+    console.log('Good by');
   }, []);
 
   (function () {
@@ -47,10 +58,9 @@ const App = () => {
       })
       setPosts(filteredPosts.sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)) );
     });
-  }, []);
+  }, [AccessAllowed, exit]);
 
   const handleSelectTag = (e) => {
-    // console.log('tagpage', tagpage);
     setSelectByTags(e.target.innerText);
   };
 
@@ -59,7 +69,8 @@ const App = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={ {authState, AccessAllowed} }>
+    <UserContext.Provider value={ {authState, AccessAllowed, exit} }>
+      <PostsContext.Provider value={{posts, setPosts}} >
       <Layout className={s.layout}>
         <Header handleSelectTagCleared={handleSelectTagCleared} />
         <Layout>
@@ -81,6 +92,7 @@ const App = () => {
         </Layout>
         <Footer />
       </Layout>
+      </PostsContext.Provider>
     </UserContext.Provider>
   );
 };

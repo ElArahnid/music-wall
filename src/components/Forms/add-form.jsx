@@ -3,22 +3,25 @@ import { Button, Checkbox, Form, Input, Select } from "antd";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import { Option } from "antd/es/mentions";
+import { useCallback } from "react";
 
-const AddForm = () => {
+const AddForm = ({ onOk }) => {
+    
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    values.tags = values.tags.split(',').map(res => res.trim());
-    api.addPost(values);
-    console.log("Success:", values);
-  };
+  const onFinish = useCallback((values) => {
+    values.tags = values?.tags?.split(',').map(res => res.trim());
+    api.addPost(values)
+    .then(onOk())
+    .then(console.log("Success:", values))
+  }, [onOk]);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
   return (
-    <Form name="addpost" form={form} onFinish={onFinish}>
+    <Form name="addpost" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item
         label="Картинка поста"
         name="image"
@@ -72,11 +75,6 @@ const AddForm = () => {
           <Button
             type="primary"
             htmlType="submit"
-            disabled={
-              !form.isFieldsTouched(true) ||
-              !!form.getFieldsError().filter(({ errors }) => errors.length)
-                .length
-            }
           >
             добавить
           </Button>

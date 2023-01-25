@@ -1,29 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
 import { UserContext } from "../../context/UserContext";
 
-export const AuthForm = () => {
+export const AuthForm = ({ onOk }) => {
   const [form] = Form.useForm();
-  const [forceUpdate, setForceUpdate] = useState({});
 
 const  { AccessAllowed } = useContext(UserContext)
 
-  // To disable submit button at the beginning.
-  useEffect(() => {
-    setForceUpdate({});
-  }, []);
-
   const onFinish = (values) => {
-    AccessAllowed(values.email, values.password)
+    AccessAllowed(values.email, values.password);
+    console.log("Success:", values);
+    onOk();
   };
-  
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <Form
       form={form}
       name="horizontal_login"
       layout="inline"
       onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
     >
       <Form.Item
         name="email"
