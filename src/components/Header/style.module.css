@@ -3,21 +3,32 @@
   background-size: contain;
   background-color: white;
   padding: 7px 27px;
-  height: 100px;
+  height: 70px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
   align-content: center;
-  align-items: stretch;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .logo {
   z-index: 1;
+  height: 65px;
 }
 
 .logo a {
     font-size: 18px;
+}
+
+.logoText {
+  display: inline-block;
+  color: #f9db07;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0);
 }
 
 .logo__img {
@@ -60,6 +71,16 @@
 
 .userPanel {
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background-image: url(./img/vinil.png);
+  background-size: 150px;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 70px;
+  min-width: 180px;
 }
 
 .faButtons {

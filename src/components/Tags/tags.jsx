@@ -4,7 +4,7 @@ import s from "./style.module.css";
 import { getColor, getNumber } from "../../utilites/utilites";
 import { Link } from "react-router-dom";
 
-export const Tags = ({ posts, handleSelectTag, handleSelectTagCleared }) => {
+export const Tags = ({ posts, handleSelectTag }) => {
   
   let tags = [];
   // console.log(posts);
@@ -17,7 +17,9 @@ export const Tags = ({ posts, handleSelectTag, handleSelectTagCleared }) => {
   const cloodTags = [...new Set(tags)].sort();
 
   return (
-    <Sider collapsible={true} theme="light" style={{position: 'relative'}} className={s.mySider}>
+    <Sider 
+      collapsible={true} 
+      style={{position: 'relative'}} className={s.mySider}>
       {
       cloodTags?.map((tagFromCloud, i) => (
         <Link to={`tagpage-${tagFromCloud}`}

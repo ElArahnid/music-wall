@@ -48,23 +48,7 @@ const FullPOstInfo = () => {
 
   const delReview = useCallback((postId, reviewId) => {
     api.delReview(postId, reviewId).then((result) => setPostView && setPostView(result));
-  }, []);
-
-  // if(postView) {const {
-  //   _id,
-  //   isPublished,
-  //   author,
-  //   image,
-  //   created_at,
-  //   updated_at,
-  //   comments,
-  //   likes,
-  //   tags,
-  //   text,
-  //   title,
-  // } = postView;}
-
-  // console.log(postView);
+  }, [setPostView]);
 
   return ( 
     <>

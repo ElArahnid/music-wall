@@ -101,23 +101,24 @@ const Header = ({ handleSelectTagCleared, imgAva }) => {
               src={logo}
               className={s.logo__img}
               alt="То, что я люблю :)"
-            />
+            /> <span className={s.logoText}>То, что я люблю :)</span>
           </NavLink>
         </div>
         <div className={s.search}>
             { !thisPage.pathname.includes('/post-') &&
               <Search
+                className={s.searcher}
                 onChange={(event) => setSearchQuery(event.target.value) }
             />}
         </div>
         <div className={s.userPanel}>
           {!authState ? (
-            <Button type="primary" onClick={showModal}>
-              <FontAwesomeIcon icon={faMusic} />
-              <FontAwesomeIcon icon={faUser} />
-            </Button>
+            <span type="primary" onClick={showModal}>
+              <FontAwesomeIcon icon={faMusic} className={s.faButtons} />
+              <FontAwesomeIcon icon={faUser} className={s.faButtons} />
+            </span>
           ) : (
-            <div>
+            <div className={s.userPanel}>
               <img onClick={showUserModal}
                 src={imgAva}
                 alt={localStorage.getItem("name")}

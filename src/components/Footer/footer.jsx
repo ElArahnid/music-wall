@@ -4,7 +4,7 @@ const Footer = () => {
     return (
 
         <footer className={s.footer}>
-            <div className={s.copyright}>copyright</div>
+            <div className={s.copyright}>СберУнивер 2023 feat Богданов Эдуард</div>
         </footer>
 
     )

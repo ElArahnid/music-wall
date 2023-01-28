@@ -9,13 +9,12 @@ import { PostsContext } from "../../context/PostsContext";
 
 const AddForm = ({ onOk }) => {
     const [form] = Form.useForm(); 
-    const {posts} = useContext(PostsContext);
-
-    console.log(posts);
+    const {posts, setPosts} = useContext(PostsContext);
 
   const onFinish = useCallback((values) => {
     values.tags = values?.tags?.split(',').map(res => res.trim());
     api.addPost(values)
+    .then(setPosts(...posts, {...values}))
     .then(onOk())
     .then(console.log("Success:", values))
   }, [onOk]);

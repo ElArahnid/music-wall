@@ -2,7 +2,11 @@
     padding: 10px;
     line-height: 1.5;
     overflow-y: scroll;
+    scrollbar-base-color: rgba(175,96,149,1);
+    scrollbar-width: thin;
     height: 100vh;
+    background: #942db6 !important ;
+    background: linear-gradient(90deg, rgba(148,45,182,1) 0%, rgba(175,96,149,1) 100%) !important;
 }
 
 .tag {
@@ -13,10 +17,11 @@
     margin: 0 5px;
     padding: 0 3px;
     border-radius: 3px;
+    color: black;
 }
 
 .tag:hover {
-    transition: .3s;
+    transition: .1s;
     color: gold;
     background-color: rebeccapurple !important;
 }

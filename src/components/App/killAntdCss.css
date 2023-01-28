@@ -1,0 +1,21 @@
+.ant-row {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.ant-layout-sider-trigger {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 55px !important;
+}
+
+.ant-card-cover {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    width: 80%;
+}

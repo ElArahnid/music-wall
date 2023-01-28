@@ -161,7 +161,7 @@ const Post = ({
         forceRender
         footer={[]}
       >
-        <Button type="primary" onClick={() => api.delPost(_id)}>
+        <Button type="primary" onClick={() => {api.delPost(_id).then(handleDelCancel)}}>
           Точно, удаляю
         </Button>
       </Modal>

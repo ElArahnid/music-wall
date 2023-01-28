@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import cn from "classnames";
 import s from "./style.module.css";
+import './killAntdCss.css';
 
 import Layout from "antd/es/layout/layout";
 
@@ -65,7 +66,6 @@ const App = () => {
       let filteredPosts = postsData.filter((value) => {
         return value.author._id === '636a510659b98b038f779cee'
       })
-
       setPosts(filteredPosts.sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)) );
     })
   }, [AccessAllowed, exit, authState, searchQuery, debounceSearchQuery]);
@@ -81,7 +81,7 @@ const App = () => {
   return (
   <UserContext.Provider value={ {authState, AccessAllowed, exit, setAuthState, userInfo, setUserInfo} }>
       <PostsContext.Provider value={{posts, setPosts, isLoading, setIsLoading, searchQuery, setSearchQuery, debounceSearchQuery}} >
-      <Layout className={s.layout}>
+      <Layout className={s.bodyLayout}>
         <Header handleSelectTagCleared={handleSelectTagCleared} imgAva={userInfo.avatar} />
         <Layout className={s.layout}>
           <Tags
