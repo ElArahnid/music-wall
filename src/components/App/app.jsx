@@ -24,6 +24,7 @@ const App = () => {
   const [selectByTags, setSelectByTags] = useState("");
   const [posts, setPosts] = useState([]);
   const [authState, setAuthState] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,12 +47,17 @@ const App = () => {
     console.log('Good by');
   }, []);
 
+  const getUserId = localStorage.getItem('id');
+  useEffect(() => {
+    api.getUserInfoById(getUserId)
+    .then(res => setUserInfo(res))
+  }, [getUserId]);
+
   (function () {
     if(!authState && (localStorage.getItem('authorised') === 'true')) {
       setAuthState(true)
     }
   }())
-
 
   useEffect(() => {
     api.getAllPosts()
@@ -62,7 +68,7 @@ const App = () => {
 
 
       setPosts(filteredPosts.sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)) );
-    });
+    })
   }, [AccessAllowed, exit, authState, searchQuery, debounceSearchQuery]);
   
 
@@ -75,7 +81,7 @@ const App = () => {
   }, []);
 
   return (
-  <UserContext.Provider value={ {authState, AccessAllowed, exit, setAuthState} }>
+  <UserContext.Provider value={ {authState, AccessAllowed, exit, setAuthState, userInfo, setUserInfo} }>
       <PostsContext.Provider value={{posts, setPosts, isLoading, setIsLoading, searchQuery, setSearchQuery, debounceSearchQuery}} >
       <Layout className={s.layout}>
         <Header handleSelectTagCleared={handleSelectTagCleared} />

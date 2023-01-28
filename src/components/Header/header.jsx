@@ -13,6 +13,7 @@ import { UserContext } from "../../context/UserContext";
 import AddForm from "../Forms/add-form";
 import Search from "antd/es/transfer/search";
 import { PostsContext } from "../../context/PostsContext";
+import { UserInfo } from "../UserInfo/user-info";
 
 const Header = ({ handleSelectTagCleared }) => {
   const squareWidth = 3;
@@ -25,8 +26,8 @@ const Header = ({ handleSelectTagCleared }) => {
   const { setSearchQuery } = useContext(PostsContext)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const [isModalUserOpen, setIsModalUserOpen] = useState(false);
   const thisPage = useLocation();
-  console.log(thisPage.pathname);
 
   const showModal = useCallback(() => {
     setIsModalOpen(true);
@@ -50,6 +51,18 @@ const Header = ({ handleSelectTagCleared }) => {
 
   const handleAddCancel = () => {
     setIsModalAddOpen(false);
+  };
+
+  const showUserModal = useCallback(() => {
+    setIsModalUserOpen(true);
+  }, []);
+
+  const handleUserOk = () => {
+    setIsModalUserOpen(false);
+  };
+
+  const handleUserCancel = () => {
+    setIsModalUserOpen(false);
   };
 
   window.addEventListener("resize", () =>
@@ -105,7 +118,7 @@ const Header = ({ handleSelectTagCleared }) => {
             </Button>
           ) : (
             <div>
-              <img
+              <img onClick={showUserModal}
                 src={localStorage.getItem("avatar")}
                 alt={localStorage.getItem("name")}
                 className={s.avatar}
@@ -135,6 +148,15 @@ const Header = ({ handleSelectTagCleared }) => {
             footer={[]}
           >
             <AddForm onOk={handleAddOk} />
+          </Modal>
+          <Modal
+            title="Данные пользователя"
+            open={isModalUserOpen}
+            onCancel={handleUserCancel}
+            forceRender={false}
+            footer={[]}
+          >
+            <UserInfo />
           </Modal>
         </div>
       </header>

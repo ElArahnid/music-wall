@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Button, Form, Input, Select } from "antd";
 import api from "../Api/api";
 
-const EditForm = ({onOk, ...props}) => {
+export const EditForm = ({onOk, ...props}) => {
   const [form] = Form.useForm();
 
   // console.log(props);

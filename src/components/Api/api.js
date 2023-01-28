@@ -40,6 +40,22 @@ class Api {
         }).then(onResponce)
     }
 
+    editUserNameAbout(data) {
+        return fetch(`${this._baseUrl}/v2/group-7/users/me`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify(data)
+          }).then(onResponce)
+    }
+
+    editUserAvatar(data) {
+        return fetch(`${this._baseUrl}/v2/group-7/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify(data)
+          }).then(onResponce)
+    }
+
     getAllPosts() {
         return fetch(`${this._baseUrl}/v2/group-7/posts`, {
             headers: this._headers
