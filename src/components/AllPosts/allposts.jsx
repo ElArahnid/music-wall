@@ -5,12 +5,12 @@ import Post from "../Post/post";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { PostsContext } from "../../context/PostsContext";
+import NotFound from "../NotFound";
 
 const AllPosts = () => {
 
   const { tagpage } = useParams();
-  const {posts, setPosts} = useContext(PostsContext);
-  console.log(posts);
+  const {posts, debounceSearchQuery} = useContext(PostsContext);
 
   const handleClearTag = (value) => {
     return value.slice(0, 25).toLowerCase().replace(/\s/g, "");
@@ -35,23 +35,39 @@ const AllPosts = () => {
         created_at: res.created_at,
         updated_at: res.updated_at,
         tags: res.tags,
-    }));
-
+    })).filter(res => 
+      res.title.toLowerCase().includes(debounceSearchQuery.toLowerCase())
+      || res.text.toLowerCase().includes(debounceSearchQuery.toLowerCase())
+      );
     return (
+      data.length > 0 ?
       <List
-        grid={{ xs: 5 }}
+        grid={
+          {
+            xs: 1,
+            sm: 1,
+            md: 2,
+            lg: 3,
+            xl: 3,
+            xxl: 5,
+            gutter: 16,
+            gap: 10
+          }
+        }
         className={s.posts}
         dataSource={data}
         pagination={{
           pageSize: 6,
           showTitle: true,
         }}
+        size="large"
         renderItem={(item) => (
           <>
             <Post key={item._id} {...item} />
           </>
         )}
       />
+      : <NotFound />
     );
 
   } else {
@@ -79,19 +95,40 @@ const AllPosts = () => {
       created_at: res.created_at,
       updated_at: res.updated_at,
       tags: res.tags,
-    }));
-
+    })).filter(res => 
+      res.title.toLowerCase().includes(debounceSearchQuery.toLowerCase())
+      || res.text.toLowerCase().includes(debounceSearchQuery.toLowerCase())
+      );
     return (
+      data.length > 0 ?
       <List
+        grid={
+          {
+            xs: 1,
+            sm: 1,
+            md: 2,
+            lg: 3,
+            xl: 3,
+            xxl: 5,
+            gutter: 16,
+            gap: 10
+          }
+        }
         className={s.posts}
         dataSource={data}
-        pagination={{pageSize: 6}}
-        renderItem={(item) => (
+        pagination={{
+          pageSize: 6,
+          showTitle: true,
+        }}
+        size="large"
+        renderItem={
+          (item) => (
           <>
             <Post key={item._id} {...item} />
           </>
         )}
       />
+      : <NotFound />
     );
   }
 };

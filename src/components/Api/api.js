@@ -29,20 +29,28 @@ const onResponce = (res) => {
 }
 
 class Api {
-    // тут деструктурируется ({}) объект config по его ключам
     constructor({ baseUrl, headers }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
     }
 
-    // GET https://api.react-learning.ru/v2/group-7/posts // получение всех постов
+    getUserInfoById(userId) {
+        return fetch(`${this._baseUrl}/v2/group-7/users/${userId}`, {
+            headers: this._headers
+        }).then(onResponce)
+    }
+
     getAllPosts() {
         return fetch(`${this._baseUrl}/v2/group-7/posts`, {
             headers: this._headers
         }).then(onResponce)
     }
 
-    // GET https://api.react-learning.ru/v2/group-7/posts/:id // получение поста по id
+    search(query) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/search/?query=${query}`, {
+            headers: this._headers
+        }).then(onResponce)
+    }
 
     getPost(postid) {
         return fetch(`${this._baseUrl}/v2/group-7/posts/${postid}`, {
@@ -50,11 +58,11 @@ class Api {
         }).then(onResponce)
     }
 
-    addPost(reviewData) {
+    addPost(postData) {
         return fetch(`${this._baseUrl}/v2/group-7/posts`, {
             method: 'POST',
             headers: this._headers,
-            body: JSON.stringify(reviewData)
+            body: JSON.stringify(postData)
           }).then(onResponce)
     }
 
@@ -70,6 +78,41 @@ class Api {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(reviewData)
+          }).then(onResponce)
+    }
+
+    addLike(postId) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/likes/${postId}`, {
+            method: 'PUT',
+            headers: this._headers
+          }).then(onResponce)
+    }
+
+    delLike(postId) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/likes/${postId}`, {
+            method: 'DELETE',
+            headers: this._headers,
+          }).then(onResponce)
+    }
+
+    getReviews(postid) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/comments/${postid}`, {
+            headers: this._headers
+        }).then(onResponce)
+    }
+
+    addReview(postId, reviewData) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/comments/${postId}`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(reviewData)
+          }).then(onResponce)
+    }
+
+    delReview(postId, reviewId) {
+        return fetch(`${this._baseUrl}/v2/group-7/posts/comments/${postId}/${reviewId}`, {
+            method: 'DELETE',
+            headers: this._headers,
           }).then(onResponce)
     }
 

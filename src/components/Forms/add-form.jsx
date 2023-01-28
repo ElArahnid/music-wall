@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Select } from "antd";
 import { useParams } from "react-router-dom";
 import api from "../Api/api";
 import { Option } from "antd/es/mentions";
 import { useCallback } from "react";
+import { UserContext } from "../../context/UserContext";
+import { PostsContext } from "../../context/PostsContext";
 
 const AddForm = ({ onOk }) => {
-    
-  const [form] = Form.useForm();
+    const [form] = Form.useForm(); 
+    const {posts} = useContext(PostsContext);
+
+    console.log(posts);
 
   const onFinish = useCallback((values) => {
     values.tags = values?.tags?.split(',').map(res => res.trim());

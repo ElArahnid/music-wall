@@ -6,10 +6,11 @@ import { UserContext } from "../../context/UserContext";
 export const AuthForm = ({ onOk }) => {
   const [form] = Form.useForm();
 
-const  { AccessAllowed } = useContext(UserContext)
+const  { AccessAllowed, setAuthState } = useContext(UserContext)
 
   const onFinish = (values) => {
     AccessAllowed(values.email, values.password);
+    setAuthState(true)
     console.log("Success:", values);
     onOk();
   };
@@ -60,11 +61,6 @@ const  { AccessAllowed } = useContext(UserContext)
           <Button
             type="primary"
             htmlType="submit"
-            disabled={
-              !form.isFieldsTouched(true) ||
-              !!form.getFieldsError().filter(({ errors }) => errors.length)
-                .length
-            }
           >
             войти
           </Button>

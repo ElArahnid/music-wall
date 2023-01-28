@@ -1,0 +1,56 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-width: 300px;
+    width: 70%;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.cardImage {
+    width: 100%;
+    margin: 10px;
+    object-fit: cover;
+}
+
+h1 {
+    margin: 0;
+}
+
+.reviewContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+.reviewDesc {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #88d6f88e;
+    padding: 7px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 9px rgb(0 0 0 / 23%);
+}
+
+.reviewHead {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.reviewText {
+    background-color: white;
+    padding: 12px 27px;
+    border-radius: 12px;
+}
+
+.faStyle {
+    font-size: 14px;
+    margin: 5px;
+    cursor: pointer;
+}

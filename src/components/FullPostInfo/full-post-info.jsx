@@ -1,75 +1,110 @@
 import React, { useEffect, useState } from "react";
 import Card from "antd/es/card/Card";
 import { useParams } from "react-router-dom";
-import Meta from "antd/es/card/Meta";
 import api from "../Api/api";
-import Avatar from "antd/es/avatar/avatar";
-
-const tabsInfo = [
-  { key: "post", tab: "Post" },
-  { key: "author", tab: "Author" },
-];
-
-
+import s from "./style.module.css";
+import dayjs from "dayjs";
+import { ReviewForm } from "../Forms/review-form";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useCallback } from "react";
+import { useApi } from "../../hooks/useApi";
 
 const FullPOstInfo = () => {
   const { id } = useParams();
-  const [post, setPost] = useState({});
+  // const [post, setPost] = useState({});
+  const { authState } = useContext(UserContext);
+
+  const userId = localStorage.getItem("id");
+  // console.log(userId);
+
+  const viewPost = useCallback( () => api.getPost(id), [id] );
+
+    const {
+      data: postView,
+      setData: setPostView,
+      error: catchError,
+    } = useApi(viewPost);
+
+    // console.log(postView);
+
+  const aboutAuthorWhoLiked = (reviewUserId) => {
+    api.getUserInfoById(reviewUserId)
+    .then(result => result.name)
+  };
+
+  const getPostCard = useCallback(() => {
+    api.getPost(id)
+    .then(data => data)
+    // .then(data => setPostView(data))
+  }, [id])
+
   useEffect(() => {
-    api.getPost(id).then((showPost) => {
-      setPost(showPost);
-    });
+    getPostCard()
+    // .then(data => postView(data))
+  }, [getPostCard])
+
+  const delReview = useCallback((postId, reviewId) => {
+    api.delReview(postId, reviewId).then((result) => setPostView && setPostView(result));
   }, []);
 
-  const [activeTab, setActiveTab] = useState("post");
-  const ofTabChange = (key) => {
-    setActiveTab(key);
-  };
+  // if(postView) {const {
+  //   _id,
+  //   isPublished,
+  //   author,
+  //   image,
+  //   created_at,
+  //   updated_at,
+  //   comments,
+  //   likes,
+  //   tags,
+  //   text,
+  //   title,
+  // } = postView;}
 
-  // console.log(post);
+  // console.log(postView);
 
-  const {
-    image,
-    author,
-    comments,
-    created_at,
-    isPublished,
-    likes,
-    tags,
-    text,
-    title,
-    updated_at,
-    _id,
-  } = post;
-
-  const contentList = {
-    post: text,
-    author: author?.name,
-  };
-
-  // const {avatar: ava} = author;
-
-  // console.log(author);
-
-  return (
-    <Card
-      tabList={tabsInfo}
-      activeTabKey={activeTab}
-      onTabChange={(key) => {
-        ofTabChange(key);
-      }}
-      title={title}
-      
-    >
-      {contentList[activeTab]}
-      <Card 
-      cover={<img src={image} />}
-      />
-      <Meta
-        avatar = {<Avatar src={author?.avatar} />}
-        description={text}
-      />
-    </Card>
+  return ( 
+    <>
+      <Card
+        title={postView?.title}
+        className={s.card}
+        cover={<img className={s.cardImage} src={postView?.image} alt={postView?.title} />}
+      >
+        {postView?.text}
+        <div className={s.reviewContainer}>
+          <h2>Комментарии</h2>
+          {postView?.comments?.map((res, i) => {
+            return postView?.comments?.length > 0 ? (
+              <div className={s.reviewDesc} key={i}>
+                <div key={res?._id} className={s.reviewHead}>
+                  <div className={s.reviewAuthor}>
+                    Автор: {aboutAuthorWhoLiked(res?.author)}
+                  </div>
+                  <div className={s.reviewDate}>
+                    Опубликовано:{" "}
+                    {dayjs(res.created_at).format("DD.MM YYYY hh:mm:ss")}
+                  </div>
+                  {authState && userId === res?.author && (
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className={s.faStyle}
+                      onClick={() => delReview(postView?._id, res?._id)}
+                    />
+                  )}
+                </div>
+                <div className={s.reviewText}>{res?.text}</div>
+              </div>
+            ) : (
+              <>Комментариев нет</>
+            );
+          })}
+          <ReviewForm postId={postView?._id} setPostView={setPostView} />
+        </div>
+      </Card>
+    </>
   );
 };
 

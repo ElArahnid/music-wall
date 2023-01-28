@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCallback } from "react";
 import { Button, Modal } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { getColor, getNumber } from "../../utilites/utilites";
 import { AuthForm } from "../Forms/auth-form";
 import s from "./style.module.css";
@@ -11,6 +11,8 @@ import { faArrowRightFromBracket, faMusic, faPlus, faUser } from "@fortawesome/f
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import AddForm from "../Forms/add-form";
+import Search from "antd/es/transfer/search";
+import { PostsContext } from "../../context/PostsContext";
 
 const Header = ({ handleSelectTagCleared }) => {
   const squareWidth = 3;
@@ -18,9 +20,13 @@ const Header = ({ handleSelectTagCleared }) => {
   const [squads, setSquads] = useState(
     Math.floor((window.innerWidth - 50) / squareWidth)
   );
+
   const { authState, exit } = useContext(UserContext);
+  const { setSearchQuery } = useContext(PostsContext)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const thisPage = useLocation();
+  console.log(thisPage.pathname);
 
   const showModal = useCallback(() => {
     setIsModalOpen(true);
@@ -83,8 +89,13 @@ const Header = ({ handleSelectTagCleared }) => {
               className={s.logo__img}
               alt="То в музыке, что я люблю!"
             />
-            <span>То, что я люблю</span>
           </NavLink>
+        </div>
+        <div className={s.search}>
+            { !thisPage.pathname.includes('/post-') &&
+              <Search
+                onChange={(event) => setSearchQuery(event.target.value) }
+            />}
         </div>
         <div className={s.userPanel}>
           {!authState ? (

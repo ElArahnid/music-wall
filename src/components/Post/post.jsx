@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "antd";
-import { EditOutlined, SettingOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { Avatar, Card } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
@@ -27,10 +27,33 @@ const Post = ({
   author,
   tags,
 }) => {
-
   const { authState } = useContext(UserContext);
   const [isModalDelOpen, setIsModalDelOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [like, setLike] = useState({state: false, number: likes.length});
+
+  // console.log(title, like);
+
+  const userIdInLS = localStorage.getItem("id");
+
+  useEffect(() => {
+    likes.some((isLikes) => {
+      isLikes === userIdInLS && setLike({state: true, number: likes.length});
+    });
+  }, [likes, setLike, userIdInLS]);
+
+  const handleLikeClick = useCallback(
+    (postId) => {
+      if (like.state) {
+        setLike({state: false, number: likes.length - 1});
+        api.delLike(postId);
+      } else {
+        setLike({state: true, number: likes.length === 0 ? likes.length + 1 : likes.length});
+        api.addLike(postId);
+      }
+    },
+    [like.state, likes]
+  );
 
   const showDelModal = useCallback(() => {
     setIsModalDelOpen(true);
@@ -60,19 +83,42 @@ const Post = ({
 
   return (
     <Card
+      className={s.card}
       key={_id}
+      title={
+        <>
+          <div className={s.favArea} onClick={() => handleLikeClick(_id, userIdInLS)}>
+            <Link to={`/post-${_id}`}>{title}</Link>
+            <FontAwesomeIcon
+              icon={faHeart}
+              className={cn(
+                s.favClear,
+                userIdInLS && { [s.favClearLiked]: like.state }
+              )}
+            />
+            <span>{like.number > 0 ? `${like.number}` : null}</span>
+          </div>
+        </>
+      }
       style={
         isPublished
           ? {
-              width: 250,
-              flexGrow: 1,
-              alignSelf: "stretch",
-              justifySelf: "stretch",
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              alignContent: "center",
+              justifyContent: "flex-start",
+              alignItems: "stretch",
             }
           : { width: 300, border: "3px solid #CCC" }
       }
-      className={s.postContainer}
-      cover={<img alt={title} src={image} className={s.imgPost} />}
+      cover={
+        <div className={s.imgContainer}>
+          <Link to={`/post-${_id}`}>
+            <img alt={title} src={image} className={s.imgPost} />
+          </Link>
+        </div>
+      }
       actions={
         authState &&
         author._id === "636a510659b98b038f779cee" && [
@@ -84,29 +130,28 @@ const Post = ({
       }
     >
       <div className={s.flexRow}>
-        <Meta avatar={<Avatar src={author.avatar} />} /> {author.name}{" "}
-        {author._id}
+        <Meta
+          avatar={
+            <Avatar src={author.avatar} title={author.name} author="scsc" />
+          }
+        />
       </div>
-      <Meta title={title} description={text.slice(0, 100) + " >>"} EllipsisOutlined />
-      <div>
-        {likes.length > 0 ? `likes: ${likes.length}` : null}
-        <FontAwesomeIcon icon={faHeart} className={cn(s.favClear)} />
-      </div>
+
       <div>{comments.length > 0 ? `comments: ${comments.length}` : null}</div>
       <div>
         {created_at &&
           `создано ${dayjs(created_at)
             .locale("ru")
-            .format("D MMMM YYYY dd, H:mm:s")}`}
+            .format("D.MM YYYY, H:mm:ss")}`}
       </div>
       <div>
         {updated_at &&
           `изменено ${dayjs(updated_at)
             .locale("ru")
-            .format("D MMMM YYYY dd, H:mm:s")}`}
+            .format("D.MM YYYY, H:mm:ss")}`}
       </div>
       <div>
-        <Link to={`/post-${_id}`}>подробнее &gt; {_id}</Link>
+        <Link to={`/post-${_id}`}>подробнее &gt;</Link>
       </div>
       <Modal
         title="Точно удалить?"
@@ -128,14 +173,14 @@ const Post = ({
         forceRender
         footer={[]}
       >
-        <EditForm 
-        image={image} 
-        title={title} 
-        text={text} 
-        tags={tags} 
-        id={_id}
-        isPublished={isPublished}
-        onOk={handleEditOk}
+        <EditForm
+          image={image}
+          title={title}
+          text={text}
+          tags={tags}
+          id={_id}
+          isPublished={isPublished}
+          onOk={handleEditOk}
         />
       </Modal>
     </Card>

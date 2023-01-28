@@ -17,22 +17,24 @@ import FullPostInfo from "../FullPostInfo/full-post-info";
 import EditForm from "../Forms/edit-form";
 import Footer from "../Footer/footer";
 import NotFound from "../NotFound";
-
+import useDebounce from "../../hooks/useDebounce";
 
 const App = () => {
 
   const [selectByTags, setSelectByTags] = useState("");
   const [posts, setPosts] = useState([]);
   const [authState, setAuthState] = useState(false);
-  // console.log(authState);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
+  const debounceSearchQuery = useDebounce(searchQuery, 500);
 
   const AccessAllowed = useCallback((email, password) => {
     let result =
     localStorage.getItem("id") === "636a510659b98b038f779cee" &&
     localStorage.getItem("authorised") === 'true';
-    api.putAuthLocalInfo(email, password)
-    .then(setAuthState(result))
+    api.putAuthLocalInfo(email, password);
+    setAuthState(result)
   }, []);
 
   const exit = useCallback(() => {
@@ -50,15 +52,19 @@ const App = () => {
     }
   }())
 
+
   useEffect(() => {
     api.getAllPosts()
     .then((postsData) => {
-      const filteredPosts = postsData.filter((value) => {
+      let filteredPosts = postsData.filter((value) => {
         return value.author._id === '636a510659b98b038f779cee'
       })
+
+
       setPosts(filteredPosts.sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)) );
     });
-  }, [AccessAllowed, exit]);
+  }, [AccessAllowed, exit, authState, searchQuery, debounceSearchQuery]);
+  
 
   const handleSelectTag = (e) => {
     setSelectByTags(e.target.innerText);
@@ -69,11 +75,11 @@ const App = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={ {authState, AccessAllowed, exit} }>
-      <PostsContext.Provider value={{posts, setPosts}} >
+  <UserContext.Provider value={ {authState, AccessAllowed, exit, setAuthState} }>
+      <PostsContext.Provider value={{posts, setPosts, isLoading, setIsLoading, searchQuery, setSearchQuery, debounceSearchQuery}} >
       <Layout className={s.layout}>
         <Header handleSelectTagCleared={handleSelectTagCleared} />
-        <Layout>
+        <Layout className={s.layout}>
           <Tags
             posts={posts}
             handleSelectTag={handleSelectTag}
