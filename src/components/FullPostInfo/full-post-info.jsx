@@ -65,7 +65,7 @@ const FullPOstInfo = () => {
               <div className={s.reviewDesc} key={i}>
                 <div key={res?._id} className={s.reviewHead}>
                   <div className={s.reviewAuthor}>
-                    Автор: {aboutAuthorWhoLiked(res?.author)}
+                    {/* Автор: {aboutAuthorWhoLiked(res?.author)} */}
                   </div>
                   <div className={s.reviewDate}>
                     Опубликовано:{" "}

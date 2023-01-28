@@ -101,7 +101,8 @@ const Header = ({ handleSelectTagCleared, imgAva }) => {
               src={logo}
               className={s.logo__img}
               alt="То, что я люблю :)"
-            /> <span className={s.logoText}>То, что я люблю :)</span>
+            /> 
+            {/* <span className={s.logoText}>То, что я люблю :)</span> */}
           </NavLink>
         </div>
         <div className={s.search}>

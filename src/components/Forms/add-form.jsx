@@ -1,23 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Checkbox, Form, Input, Select } from "antd";
-import { useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { Button, Form, Input } from "antd";
 import api from "../Api/api";
-import { Option } from "antd/es/mentions";
 import { useCallback } from "react";
-import { UserContext } from "../../context/UserContext";
 import { PostsContext } from "../../context/PostsContext";
+import { useNavigate } from "react-router-dom";
 
 const AddForm = ({ onOk }) => {
     const [form] = Form.useForm(); 
     const {posts, setPosts} = useContext(PostsContext);
 
+    // console.log(posts);
+
   const onFinish = useCallback((values) => {
-    values.tags = values?.tags?.split(',').map(res => res.trim());
+    values.tags = values.tags?.split(',').map(res => res.trim());
     api.addPost(values)
-    .then(setPosts(...posts, {...values}))
-    .then(onOk())
+    .then(api.getAllPosts().then(res => setPosts(
+      res.filter((value) => {
+        return value.author._id === '636a510659b98b038f779cee'}
+        ).sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)))))
     .then(console.log("Success:", values))
-  }, [onOk]);
+    .then(onOk())
+  }, [onOk, setPosts]);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -50,12 +53,12 @@ const AddForm = ({ onOk }) => {
         <Input />
       </Form.Item>
       <Form.Item
-        label="Теги"
+        label="Теги, через запятую (пробелы будут удалены)"
         name='tags'
         rules={[
           {
             required: false,
-            message: "Пожалуйста, введите теги через запятую",
+            message: "Пожалуйста, введите теги через запятую (тут добавить проверку)",
           },
         ]}
       >

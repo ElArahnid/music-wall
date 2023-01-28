@@ -3,16 +3,23 @@ import Sider from "antd/es/layout/Sider";
 import s from "./style.module.css";
 import { getColor, getNumber } from "../../utilites/utilites";
 import { Link } from "react-router-dom";
+import { useApi } from "../../hooks/useApi";
 
 export const Tags = ({ posts, handleSelectTag }) => {
   
   let tags = [];
+  
   // console.log(posts);
-  posts?.map((res) => {
+
+const findAndClearTags = () => {
+    posts?.map((res) => {
     (res?.tags).map((tag, i) =>
-      tags.push(tag.slice(0, 25).toLowerCase().replace(/\s/g, ""))
-    );
-  });
+      tags?.push(tag.slice(0, 25).toLowerCase().replace(/\s/g, ""))
+    )
+  })
+}
+
+findAndClearTags()
 
   const cloodTags = [...new Set(tags)].sort();
 

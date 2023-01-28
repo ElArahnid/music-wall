@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
 import { Button, Form, Input, Select } from "antd";
 import api from "../Api/api";
+import { PostsContext } from "../../context/PostsContext";
+import { useCallback } from "react";
 
 export const EditForm = ({onOk, ...props}) => {
   const [form] = Form.useForm();
+  const {posts, setPosts} = useContext(PostsContext);
+  
 
-  // console.log(props);
-
-  const onFinish = (values) => {
+  const onFinish = useCallback((values) => {
     values.tags = values.tags.split(',').map(res => res.trim());
     api.editPost(props.id, values)
     .then( console.log("Success:", values) )
     .then( onOk() )
-  };
+  }, [onOk, props.id]);
   
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
