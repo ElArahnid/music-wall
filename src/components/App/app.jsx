@@ -66,12 +66,10 @@ const App = () => {
         return value.author._id === '636a510659b98b038f779cee'
       })
 
-
       setPosts(filteredPosts.sort((a, b) => Date.parse(b?.created_at) - Date.parse(a?.created_at)) );
     })
   }, [AccessAllowed, exit, authState, searchQuery, debounceSearchQuery]);
   
-
   const handleSelectTag = (e) => {
     setSelectByTags(e.target.innerText);
   };
@@ -84,7 +82,7 @@ const App = () => {
   <UserContext.Provider value={ {authState, AccessAllowed, exit, setAuthState, userInfo, setUserInfo} }>
       <PostsContext.Provider value={{posts, setPosts, isLoading, setIsLoading, searchQuery, setSearchQuery, debounceSearchQuery}} >
       <Layout className={s.layout}>
-        <Header handleSelectTagCleared={handleSelectTagCleared} />
+        <Header handleSelectTagCleared={handleSelectTagCleared} imgAva={userInfo.avatar} />
         <Layout className={s.layout}>
           <Tags
             posts={posts}

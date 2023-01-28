@@ -4,18 +4,19 @@ import Meta from "antd/es/card/Meta";
 import { useContext, useState } from "react"
 import { UserContext } from "../../context/UserContext"
 import EditUserForm from "../Forms/edit-user-form";
+import s from './style.module.css';
 
-export const UserInfo = (infoCard, setInfoCard) => {
+export const UserInfo = () => {
     const {userInfo, setUserInfo} = useContext(UserContext);
     const [infoCard, setInfoCard] = useState('view');
-    console.log(infoCard, '<== infoCard', setInfoCard, '<== setInfoCard');
+    // console.log(infoCard, '<== infoCard', setInfoCard, '<== setInfoCard');
 
     return (
-    infoCard !== 'edit' ?
+    infoCard === 'view' ?
             <>
-        <Card 
+        <Card className={s.card} 
             cover={
-                <img src={userInfo?.avatar} alt={userInfo?.name} />
+                <img src={userInfo?.avatar} alt={userInfo?.name} className={s.img} />
             }
             >
             <Meta 
@@ -31,11 +32,11 @@ export const UserInfo = (infoCard, setInfoCard) => {
             />
             </Card>
         </>
-        :
+        : 
         <>
         <EditUserForm 
             titleHead="Редактирование имени и информации" 
-            setUserInfo={setUserInfo} setInfoCard={setInfoCard} 
+            setUserInfo={setUserInfo} userInfo={userInfo} setInfoCard={setInfoCard} 
         />
         </>
 

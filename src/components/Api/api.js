@@ -138,7 +138,6 @@ class Api {
             if ((uData.email === email) && (uData.password === password)) {
                 localStorage.setItem('authorised', true);
                 localStorage.setItem('id', uData.id);
-                localStorage.setItem('avatar', uData.avatar);
                 localStorage.setItem('name', uData.name);
             }
             else {

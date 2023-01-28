@@ -15,7 +15,7 @@ import Search from "antd/es/transfer/search";
 import { PostsContext } from "../../context/PostsContext";
 import { UserInfo } from "../UserInfo/user-info";
 
-const Header = ({ handleSelectTagCleared }) => {
+const Header = ({ handleSelectTagCleared, imgAva }) => {
   const squareWidth = 3;
 
   const [squads, setSquads] = useState(
@@ -100,7 +100,7 @@ const Header = ({ handleSelectTagCleared }) => {
             <img
               src={logo}
               className={s.logo__img}
-              alt="То в музыке, что я люблю!"
+              alt="То, что я люблю :)"
             />
           </NavLink>
         </div>
@@ -119,7 +119,7 @@ const Header = ({ handleSelectTagCleared }) => {
           ) : (
             <div>
               <img onClick={showUserModal}
-                src={localStorage.getItem("avatar")}
+                src={imgAva}
                 alt={localStorage.getItem("name")}
                 className={s.avatar}
               />
